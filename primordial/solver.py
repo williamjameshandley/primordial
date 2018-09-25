@@ -22,27 +22,21 @@ class Solver(object):
         return None
 
 class Event(object):
-    def __init__(self, solver):
+    def __init__(self, solver, direction=0, terminal=False):
         self.solver = solver
+        self.direction = direction
+        self.terminal = terminal
+
 
 class Inflation(Event):
     def __call__(self, t, y):
         N, phi, dphi = y
         return self.solver.V(phi) - dphi**2 
 
-class InflationExit(Inflation):
-    direction = -1
-
-class InflationEntry(Inflation):
-    direction = +1
-
-class InflationExitStop(InflationExit):
-    terminal = True
 
 class Stationary(Event):
     def __call__(self, t, y):
         return self.solver.H2(y)
-    terminal = True
 
 
 class Solver_t(Solver):
@@ -63,7 +57,7 @@ class Solver_t(Solver):
         return H2
 
     def events(self):
-        return [InflationEntry(self), InflationExitStop(self), Stationary(self)]
+        return [Inflation(self, +1), Inflation(self, -1, True), Stationary(self, terminal=True)]
 
     def solve(self, t, *args):
         sol = super(Solver_t, self).solve(t, *args)
