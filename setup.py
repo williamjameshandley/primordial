@@ -23,7 +23,7 @@ def get_version(short=False):
                     return ver
 
 
-setup(name='fgivenx',
+setup(name='primordial',
       version=get_version(),
       description='primordial: inflationary equation solver',
       long_description=readme(),
