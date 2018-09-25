@@ -4,10 +4,10 @@ primordial.test package
 Submodules
 ----------
 
-primordial.test.test\_equations module
---------------------------------------
+primordial.test.test\_solver module
+-----------------------------------
 
-.. automodule:: primordial.test.test_equations
+.. automodule:: primordial.test.test_solver
     :members:
     :undoc-members:
     :show-inheritance:

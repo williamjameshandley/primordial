@@ -11,10 +11,18 @@ Subpackages
 Submodules
 ----------
 
-primordial.equations module
----------------------------
+primordial.potentials module
+----------------------------
 
-.. automodule:: primordial.equations
+.. automodule:: primordial.potentials
+    :members:
+    :undoc-members:
+    :show-inheritance:
+
+primordial.solver module
+------------------------
+
+.. automodule:: primordial.solver
     :members:
     :undoc-members:
     :show-inheritance:
