@@ -1,10 +1,13 @@
 import matplotlib.pyplot as plt
-from primordial.equations import Solver
+from primordial.solver import SolverKD_t as Solver
+from primordial.potentials import ChaoticPotential
 import numpy
 
 fig, ax = plt.subplots(3,sharex=True)
 for K in [-1, 0, +1]:
-    solver = Solver(K)
+    m = 1
+    V = ChaoticPotential(m)
+    solver = Solver(K, V)
 
     N_p = -1.27
     phi_p = 16
