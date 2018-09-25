@@ -21,6 +21,29 @@ class Solver(object):
     def events(self):
         return None
 
+class Event(object):
+    def __init__(self, solver):
+        self.solver = solver
+
+class Inflation(Event):
+    def __call__(self, t, y):
+        N, phi, dphi = y
+        return self.solver.V(phi) - dphi**2 
+
+class InflationExit(Inflation):
+    direction = -1
+
+class InflationEntry(Inflation):
+    direction = +1
+
+class InflationExitStop(InflationExit):
+    terminal = True
+
+class Stationary(Event):
+    def __call__(self, t, y):
+        return self.solver.H2(y)
+    terminal = True
+
 
 class Solver_t(Solver):
     def __init__(self, K, V):
@@ -40,28 +63,12 @@ class Solver_t(Solver):
         return H2
 
     def events(self):
-        return [self.inflation_entry, self.inflation_exit, self.stationary]
-
-    def inflation_exit(self, t, y):
-        N, phi, dphi = y
-        return self.V(phi) - dphi**2 
-    inflation_exit.direction = -1
-    inflation_exit.terminal = True
-
-    def inflation_entry(self, t, y):
-        return self.inflation_exit(t, y)
-    inflation_entry.direction = +1
-
-    def stationary(self, t, y):
-        return self.H2(y)
-    stationary.terminal = True
+        return [InflationEntry(self), InflationExitStop(self), Stationary(self)]
 
     def solve(self, t, *args):
         sol = super(Solver_t, self).solve(t, *args)
         sol.N, sol.phi, sol.dphi = sol.y
         sol.H = numpy.sqrt(self.H2(sol.y))
-        sol.t_inflation_entry = sol.t_events[0][0]
-        sol.t_inflation_exit = sol.t_events[1][0]
         return sol
 
 
