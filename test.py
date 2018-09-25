@@ -9,11 +9,11 @@ for K in [-1, 0, +1]:
     V = ChaoticPotential(m)
     solver = Solver(K, V)
 
-    N_p = -1.27
-    phi_p = 16
+    N_p = -1.5
+    phi_p = 23
     t = numpy.logspace(-5,10,1e6)
     sol = solver.solve(t, N_p, phi_p)
-    print(len(sol.t))
+    print(sol.t_inflation_entry, sol.t_inflation_exit)
 
     ax[0].plot(sol.N,sol.phi)
     ax[0].set_ylabel(r'$\phi$')
