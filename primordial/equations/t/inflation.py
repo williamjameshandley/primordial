@@ -1,5 +1,5 @@
 import numpy
-from primordial.equations import Equations as _Equations
+from primordial.equations.equations import Equations as _Equations
 
 
 class Equations(_Equations):

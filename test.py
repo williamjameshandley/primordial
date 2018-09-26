@@ -1,9 +1,9 @@
+import numpy
 import matplotlib.pyplot as plt
 from primordial.solver import solve
-from primordial.events import Inflation, Stationary
-from primordial.t.background import Equations, KD_initial_conditions
-from primordial.potentials import ChaoticPotential
-import numpy
+from primordial.equations.inflation_potentials import ChaoticPotential
+from primordial.equations.t.inflation import Equations, KD_initial_conditions
+from primordial.equations.events import Inflation, Stationary
 
 fig, ax = plt.subplots(3,sharex=True)
 for K in [-1, 0, +1]:

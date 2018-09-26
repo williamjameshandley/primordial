@@ -1,9 +1,9 @@
 import numpy
 from numpy.testing import assert_allclose, assert_almost_equal
 from primordial.solver import Solver
-from primordial.events import Inflation, Stationary
-from primordial.t.background import Equations, KD_initial_conditions
-from primordial.potentials import ChaoticPotential
+from primordial.equations.inflation_potentials import ChaoticPotential
+from primordial.equations.t.inflation import Equations, KD_initial_conditions
+from primordial.equations.events import Inflation, Stationary
 
 def test_Solver():
     for K in [-1, 0, +1]:
