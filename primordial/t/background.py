@@ -1,7 +1,14 @@
 import numpy
-import primordial.equations 
+from primordial.equations import Equations as _Equations
 
-class Equations(primordial.equations.Equations):
+def make_variable(name, i):
+    def method(self, t, y):
+        return y[self[name]]
+    i[name] = len(i)
+    return method
+
+
+class Equations(_Equations):
     """ Background equations in time 
     
     Variables:
@@ -10,11 +17,13 @@ class Equations(primordial.equations.Equations):
         dphi: d (phi) / dt
     
     """
-    i = {'N':0, 'phi': 1, 'dphi': 2}
+    N = make_variable('N', _Equations._i)
+    phi = make_variable('phi', _Equations._i)
+    dphi = make_variable('dphi', _Equations._i)
 
     def __init__(self, K, potential):
+        super(Equations, self).__init__(potential)
         self.K = K
-        self.potential = potential
 
     def __call__(self, t, y):
         """ The derivative function for underlying variables """
@@ -23,31 +32,12 @@ class Equations(primordial.equations.Equations):
         dVdphi = self.dVdphi(t, y)
         ddphi = -3*H*dphi - dVdphi
 
-        dy = [numpy.nan] * self.n
-        dy[self.i['N']] = H
-        dy[self.i['phi']] = dphi
-        dy[self.i['dphi']] = ddphi
+        dy = numpy.zeros_like(y)
+        dy[self['N']] = H
+        dy[self['phi']] = dphi
+        dy[self['dphi']] = ddphi
 
         return dy
-
-    @property
-    def n(self):
-        return len(self.i)
-
-    def N(self, t, y):
-        return y[self.i['N']]
-
-    def phi(self, t, y):
-        return y[self.i['phi']]
-
-    def dphi(self, t, y):
-        return y[self.i['dphi']]
-
-    def V(self, t, y):
-        return self.potential(self.phi(t, y))
-
-    def dVdphi(self, t, y):
-        return self.potential.d(self.phi(t, y))
 
     def H(self, t, y):
         return numpy.sqrt(self.H2(t, y))
@@ -70,12 +60,16 @@ class Equations(primordial.equations.Equations):
         sol.H = numpy.sqrt(self.H2(sol.t, sol.y))
         return sol
 
+    @property
+    def n(self):
+        return len(self._i)
+
 
 def KD_initial_conditions(t0, N_p, phi_p, equations): 
     """ Kinetic dominance initial conditions """
     b = equations.K * numpy.exp(-2*N_p)
     y0 = [numpy.nan]* equations.n
-    y0[equations.i['N']] = N_p + numpy.log(t0)/3 - 9/14 * b * t0**(4./3)
-    y0[equations.i['phi']] = phi_p - numpy.sqrt(2./3)*numpy.log(t0) - 27*numpy.sqrt(6)/56*b*t0**(4./3)
-    y0[equations.i['dphi']] = -numpy.sqrt(2./3)/t0 - 9*numpy.sqrt(6)/14 * b * t0**(1./3)
+    y0[equations['N']] = N_p + numpy.log(t0)/3 - 9/14 * b * t0**(4./3)
+    y0[equations['phi']] = phi_p - numpy.sqrt(2./3)*numpy.log(t0) - 27*numpy.sqrt(6)/56*b*t0**(4./3)
+    y0[equations['dphi']] = -numpy.sqrt(2./3)/t0 - 9*numpy.sqrt(6)/14 * b * t0**(1./3)
     return y0
