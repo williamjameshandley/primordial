@@ -11,7 +11,7 @@ for K in [-1, 0, +1]:
     V = ChaoticPotential(m)
     equations = Equations(K, V)
 
-    events= [Inflation(equations, +1),               # Record inflation entry
+    events= [Inflation(equations),                   # Record inflation entry and exit
             Inflation(equations, -1, terminal=True), # Stop on inflation exit
             Stationary(equations, terminal=True)]    # Stop if universe stops expanding
 
@@ -20,11 +20,11 @@ for K in [-1, 0, +1]:
 
     N_p = -1.5
     phi_p = 23
+    t_p = 1e-5
+    ic = KD_initial_conditions(t_p, N_p, phi_p)
     t = numpy.logspace(-5,10,1e6)
 
-    y0 = KD_initial_conditions(t[0], N_p, phi_p, equations)
-
-    sol = solver.solve(t, y0)
+    sol = solver.solve(ic, t)
 
     ax[0].plot(sol.N,sol.phi)
     ax[0].set_ylabel(r'$\phi$')

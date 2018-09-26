@@ -17,11 +17,12 @@ def test_Solver():
 
         solver = Solver(equations, events)
 
+        t_p = 1e-5
         N_p = -1.5
         phi_p = 23
-        t = numpy.logspace(-5,10,10**6)
-        y0 = KD_initial_conditions(t[0], N_p, phi_p, equations)
-        sol = solver.solve(t, y0)
+        ic = KD_initial_conditions(t_p, N_p, phi_p)
 
-        t = 1e-5
-        sol = solver.solve(t, y0)
+        t = numpy.logspace(-5,10,10**6)
+        sol = solver.solve(ic, t)
+
+        sol = solver.solve(ic)

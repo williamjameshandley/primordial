@@ -1,4 +1,6 @@
-class Equations(object):
+from types import MethodType
+
+class Equations(dict):
     """ Base class for equations.
 
     Allows one to compute derivatives and derived variables.
@@ -10,7 +12,6 @@ class Equations(object):
         The derivative function for underlying variables
 
     """
-    _i = {}
     def __init__(self, potential):
         self.potential = potential
 
@@ -23,5 +24,8 @@ class Equations(object):
     def dVdphi(self, t, y):
         return self.potential.d(self.phi(t, y))
 
-    def __getitem__(self, key):
-        return self._i[key]
+    def variable(self, name):
+        def method(self, t, y):
+            return y[self[name]]
+        self[name] = len(self)
+        return MethodType(method, self)
