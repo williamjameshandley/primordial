@@ -1,3 +1,4 @@
+import numpy
 from types import MethodType
 
 class Equations(dict):
@@ -11,21 +12,28 @@ class Equations(dict):
     __call__(self, t, y)
         The derivative function for underlying variables
 
-    """
-    def __init__(self, potential):
-        self.potential = potential
+    and add variable names using ``add_variable`` or ``add_variables``
 
+    """
     def sol(self, sol):
+        for var in self:
+            setattr(sol, var, sol.y[self['N']])
         return sol
 
-    def V(self, t, y):
-        return self.potential(self.phi(t, y))
-
-    def dVdphi(self, t, y):
-        return self.potential.d(self.phi(t, y))
-
-    def variable(self, name):
-        def method(self, t, y):
-            return y[self[name]]
+    def add_variable(self, name):
+        """ Add variable to equations.
+        
+        * creates an index for the location of variable in y
+        * creates a class method of the same name with signature
+          name(self, t, y) that should be used to extract the variable value in
+          an index-independent manner.
+        """
         self[name] = len(self)
-        return MethodType(method, self)
+        def method(self, t, y):
+            return numpy.array(y)[self[name],...]
+        setattr(self, name, MethodType(method, self))
+
+    def add_variables(self, names):
+        """ Add multiple variables to the equations """
+        for name in names:
+            self.add_variable(name)

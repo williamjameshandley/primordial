@@ -14,3 +14,8 @@ class Solver(object):
         sol = integrate.solve_ivp(self.equations, (ic.t0, 1e300), y0, 
                                   method=self.method, t_eval=t, events=self.events)
         return self.equations.sol(sol)
+
+def solve(equations, ic, t=None, events=None, method='RK45'):
+    solver = Solver(equations, events)
+    return solver.solve(ic, t)
+

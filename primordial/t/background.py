@@ -4,6 +4,12 @@ from primordial.equations import Equations as _Equations
 
 class Equations(_Equations):
     """ Background equations in time 
+
+    Solves bacgkround variables in cosmic time for curved and flat universes
+    using the Klein-Gordon and Friedmann equations.
+
+    Independent variable:
+        t: cosmic time
     
     Variables:
         N: efolds
@@ -11,16 +17,14 @@ class Equations(_Equations):
         dphi: d (phi) / dt
     
     """
-
     def __init__(self, K, potential):
-        super(Equations, self).__init__(potential)
-        self.N = self.variable('N')
-        self.phi = self.variable('phi')
-        self.dphi = self.variable('dphi')
+        self.potential = potential
         self.K = K
+        self.add_variables(['N', 'phi', 'dphi'])
 
     def __call__(self, t, y):
-        """ The derivative function for underlying variables """
+        """ The derivative function for underlying variables,
+            computed using the Klein-Gordon equation """
         H = self.H(t, y)
         dphi = self.dphi(t, y)
         dVdphi = self.dVdphi(t, y)
@@ -34,15 +38,25 @@ class Equations(_Equations):
         return dy
 
     def H(self, t, y):
+        """ Hubble parameter"""
         return numpy.sqrt(self.H2(t, y))
 
     def H2(self, t, y):
-        """ The square of the Hubble constant """
+        """ The square of the Hubble parameter,
+            computed using the Friedmann equation """
         N = self.N(t, y)
         V = self.V(t, y)
         dphi = self.dphi(t, y) 
         N = self.N(t, y) 
         return (dphi**2/2 + V)/3 - self.K*numpy.exp(-2*N)
+
+    def V(self, t, y):
+        """ Potential """
+        return self.potential(self.phi(t, y))
+
+    def dVdphi(self, t, y):
+        """ Potential derivative """
+        return self.potential.d(self.phi(t, y))
 
     def inflating(self, t, y):
         """ Inflation diagnostic """
@@ -50,7 +64,7 @@ class Equations(_Equations):
 
     def sol(self, sol):
         """ Post-process solution of solve_ivp """
-        sol.N, sol.phi, sol.dphi = sol.y
+        sol = super(Equations, self).sol(sol)
         sol.H = numpy.sqrt(self.H2(sol.t, sol.y))
         return sol
 

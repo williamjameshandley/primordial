@@ -1,5 +1,5 @@
 import matplotlib.pyplot as plt
-from primordial.solver import Solver
+from primordial.solver import solve
 from primordial.events import Inflation, Stationary
 from primordial.t.background import Equations, KD_initial_conditions
 from primordial.potentials import ChaoticPotential
@@ -16,15 +16,13 @@ for K in [-1, 0, +1]:
             Stationary(equations, terminal=True)]    # Stop if universe stops expanding
 
 
-    solver = Solver(equations, events)
-
     N_p = -1.5
     phi_p = 23
     t_p = 1e-5
     ic = KD_initial_conditions(t_p, N_p, phi_p)
     t = numpy.logspace(-5,10,1e6)
 
-    sol = solver.solve(ic, t)
+    sol = solve(equations, ic, t, events)
 
     ax[0].plot(sol.N,sol.phi)
     ax[0].set_ylabel(r'$\phi$')
