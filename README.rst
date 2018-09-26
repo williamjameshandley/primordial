@@ -3,7 +3,7 @@ primordial: inflationary equation solver
 ========================================
 :primordial: inflationary equation solver
 :Author: Will Handley
-:Version: 0.0.2
+:Version: 0.0.4
 :Homepage: https://github.com/williamjameshandley/primordial
 :Documentation: http://primordial.readthedocs.io/
 
@@ -37,7 +37,7 @@ Example Usage
     import matplotlib.pyplot as plt
     from primordial.solver import Solver
     from primordial.events import Inflation, Stationary
-    from primordial.equations_t import Equations, KD_initial_conditions
+    from primordial.t.equations import Equations, KD_initial_conditions
     from primordial.potentials import ChaoticPotential
     import numpy
     
@@ -58,7 +58,7 @@ Example Usage
          phi_p = 23
          t = numpy.logspace(-5,10,1e6)
 
-         y0 = KD_initial_conditions(t[0], K, N_p, phi_p)
+         y0 = KD_initial_conditions(t[0], N_p, phi_p, equations)
 
          sol = solver.solve(t, y0)
 

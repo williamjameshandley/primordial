@@ -2,7 +2,7 @@ import numpy
 from numpy.testing import assert_allclose, assert_almost_equal
 from primordial.solver import Solver
 from primordial.events import Inflation, Stationary
-from primordial.equations_t import Equations, KD_initial_conditions
+from primordial.t.background import Equations, KD_initial_conditions
 from primordial.potentials import ChaoticPotential
 
 def test_Solver():
@@ -20,7 +20,7 @@ def test_Solver():
         N_p = -1.5
         phi_p = 23
         t = numpy.logspace(-5,10,10**6)
-        y0 = KD_initial_conditions(t[0], K, N_p, phi_p)
+        y0 = KD_initial_conditions(t[0], N_p, phi_p, equations)
         sol = solver.solve(t, y0)
 
         t = 1e-5

@@ -1,7 +1,7 @@
 import matplotlib.pyplot as plt
 from primordial.solver import Solver
 from primordial.events import Inflation, Stationary
-from primordial.equations_t import Equations, KD_initial_conditions
+from primordial.t.background import Equations, KD_initial_conditions
 from primordial.potentials import ChaoticPotential
 import numpy
 
@@ -22,7 +22,7 @@ for K in [-1, 0, +1]:
     phi_p = 23
     t = numpy.logspace(-5,10,1e6)
 
-    y0 = KD_initial_conditions(t[0], K, N_p, phi_p)
+    y0 = KD_initial_conditions(t[0], N_p, phi_p, equations)
 
     sol = solver.solve(t, y0)
 

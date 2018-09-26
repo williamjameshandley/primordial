@@ -1,0 +1,81 @@
+import numpy
+import primordial.equations 
+
+class Equations(primordial.equations.Equations):
+    """ Background equations in time 
+    
+    Variables:
+        N: efolds
+        phi: inflaton field
+        dphi: d (phi) / dt
+    
+    """
+    i = {'N':0, 'phi': 1, 'dphi': 2}
+
+    def __init__(self, K, potential):
+        self.K = K
+        self.potential = potential
+
+    def __call__(self, t, y):
+        """ The derivative function for underlying variables """
+        H = self.H(t, y)
+        dphi = self.dphi(t, y)
+        dVdphi = self.dVdphi(t, y)
+        ddphi = -3*H*dphi - dVdphi
+
+        dy = [numpy.nan] * self.n
+        dy[self.i['N']] = H
+        dy[self.i['phi']] = dphi
+        dy[self.i['dphi']] = ddphi
+
+        return dy
+
+    @property
+    def n(self):
+        return len(self.i)
+
+    def N(self, t, y):
+        return y[self.i['N']]
+
+    def phi(self, t, y):
+        return y[self.i['phi']]
+
+    def dphi(self, t, y):
+        return y[self.i['dphi']]
+
+    def V(self, t, y):
+        return self.potential(self.phi(t, y))
+
+    def dVdphi(self, t, y):
+        return self.potential.d(self.phi(t, y))
+
+    def H(self, t, y):
+        return numpy.sqrt(self.H2(t, y))
+
+    def H2(self, t, y):
+        """ The square of the Hubble constant """
+        N = self.N(t, y)
+        V = self.V(t, y)
+        dphi = self.dphi(t, y) 
+        N = self.N(t, y) 
+        return (dphi**2/2 + V)/3 - self.K*numpy.exp(-2*N)
+
+    def inflating(self, t, y):
+        """ Inflation diagnostic """
+        return self.V(t, y) - self.dphi(t, y)**2 
+
+    def sol(self, sol):
+        """ Post-process solution of solve_ivp """
+        sol.N, sol.phi, sol.dphi = sol.y
+        sol.H = numpy.sqrt(self.H2(sol.t, sol.y))
+        return sol
+
+
+def KD_initial_conditions(t0, N_p, phi_p, equations): 
+    """ Kinetic dominance initial conditions """
+    b = equations.K * numpy.exp(-2*N_p)
+    y0 = [numpy.nan]* equations.n
+    y0[equations.i['N']] = N_p + numpy.log(t0)/3 - 9/14 * b * t0**(4./3)
+    y0[equations.i['phi']] = phi_p - numpy.sqrt(2./3)*numpy.log(t0) - 27*numpy.sqrt(6)/56*b*t0**(4./3)
+    y0[equations.i['dphi']] = -numpy.sqrt(2./3)/t0 - 9*numpy.sqrt(6)/14 * b * t0**(1./3)
+    return y0
