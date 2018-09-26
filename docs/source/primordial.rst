@@ -6,18 +6,11 @@ Subpackages
 
 .. toctree::
 
+    primordial.equations
     primordial.test
 
 Submodules
 ----------
-
-primordial.potentials module
-----------------------------
-
-.. automodule:: primordial.potentials
-    :members:
-    :undoc-members:
-    :show-inheritance:
 
 primordial.solver module
 ------------------------
