@@ -2,18 +2,22 @@ import numpy
 import matplotlib.pyplot as plt
 from primordial.solver import solve
 from primordial.equations.inflation_potentials import ChaoticPotential
-from primordial.equations.t.inflation import Equations, KD_initial_conditions
-from primordial.equations.events import Inflation, Stationary
+from primordial.equations.t.mukhanov_sasaki import Equations, KD_initial_conditions
+from primordial.equations.events import Inflation, Stationary, ModeExit
 
-fig, ax = plt.subplots(3,sharex=True)
-for K in [-1, 0, +1]:
+fig, axes = plt.subplots(3,sharex=True)
+for ax, K in zip(axes, [-1, 0, +1]):
+    ax2 = ax.twinx()
     m = 1
     V = ChaoticPotential(m)
-    equations = Equations(K, V)
+    k = 100
+    equations = Equations(K, V, k)
 
-    events= [Inflation(equations),                   # Record inflation entry and exit
-            Inflation(equations, -1, terminal=True), # Stop on inflation exit
-            Stationary(equations, terminal=True)]    # Stop if universe stops expanding
+    events= [
+            Inflation(equations),                    # Record inflation entry and exit
+            Stationary(equations, terminal=True),    # Stop if universe stops expanding
+            ModeExit(equations, -1, terminal=True, value=1e-1)   # Stop on mode exit
+            ]
 
 
     N_p = -1.5
@@ -24,15 +28,12 @@ for K in [-1, 0, +1]:
 
     sol = solve(equations, ic, t, events)
 
-    ax[0].plot(sol.N,sol.phi)
-    ax[0].set_ylabel(r'$\phi$')
+    ax.plot(sol.N,sol.R1, 'k-')
+    ax2.plot(sol.N,-numpy.log(sol.H*numpy.exp(sol.N)), 'b-')
 
-    ax[1].plot(sol.N,sol.H)
-    ax[1].set_yscale('log')
-    ax[1].set_ylabel(r'$H$')
+    ax.set_ylabel('$\mathcal{R}$')
+    ax2.set_ylabel('$-\log aH$')
 
-    ax[2].plot(sol.N,1/(sol.H*numpy.exp(sol.N)))
-    ax[2].set_yscale('log')
-    ax[2].set_ylabel(r'$1/aH$')
+    ax.text(0.9, 0.9, r'$K=%i$' % K, transform=ax.transAxes)
 
-plt.show()
+axes[-1].set_xlabel('$N$')

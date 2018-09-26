@@ -16,8 +16,8 @@ class Equations(dict):
 
     """
     def sol(self, sol):
-        for var in self:
-            setattr(sol, var, sol.y[self['N']])
+        for name, i in self.items():
+            setattr(sol, name, sol.y[i])
         return sol
 
     def add_variable(self, name):

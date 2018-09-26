@@ -1,3 +1,5 @@
+import numpy
+
 class Event(object):
     """ Base class for events.
 
@@ -20,20 +22,25 @@ class Event(object):
     terminal: bool
         Whether to stop at this root
     """
-    def __init__(self, equations, direction=0, terminal=False):
+    def __init__(self, equations, direction=0, terminal=False, value=0):
         self.equations = equations
         self.direction = direction
         self.terminal = terminal
+        self.value = value
 
 
 class Inflation(Event):
     """ Inflation entry/exit """
     def __call__(self, t, y):
-        return self.equations.inflating(t, y)
+        return self.equations.inflating(t, y) - self.value
 
 
 class Stationary(Event):
     """ Tests if a is positive """
     def __call__(self, t, y):
-        return self.equations.H2(t, y)
+        return self.equations.H2(t, y) - self.value
 
+class ModeExit(Event):
+    """ When mode exits the horizon """
+    def __call__(self, t, y):
+        return numpy.log(self.equations.k/self.equations.H(t, y))-self.equations.N(t,y) - numpy.log(self.value)
