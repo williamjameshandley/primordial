@@ -2,7 +2,7 @@ class Potential(object):
     pass
 
 class ChaoticPotential(Potential):
-    def __init__(self, m):
+    def __init__(self, m=1):
         self.m = m
 
     def __call__(self, phi):
