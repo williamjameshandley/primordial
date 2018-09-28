@@ -1,7 +1,6 @@
 import numpy
 from primordial.equations.equations import Equations as _Equations
 
-
 class Equations(_Equations):
     """ Background equations in time 
 
@@ -65,7 +64,7 @@ class Equations(_Equations):
     def sol(self, sol):
         """ Post-process solution of solve_ivp """
         sol = super(Equations, self).sol(sol)
-        sol.H = numpy.sqrt(self.H2(sol.t, sol.y))
+        sol.H = self.H(sol.t, sol.y)
         return sol
 
 

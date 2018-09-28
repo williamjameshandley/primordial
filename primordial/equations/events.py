@@ -43,4 +43,9 @@ class Stationary(Event):
 class ModeExit(Event):
     """ When mode exits the horizon """
     def __call__(self, t, y):
-        return numpy.log(self.equations.k/self.equations.H(t, y))-self.equations.N(t,y) - numpy.log(self.value)
+        return numpy.log(self.equations.H(t, y))+self.equations.N(t,y) - numpy.log(self.value)
+
+class UntilN(Event):
+    """ Stop at N """
+    def __call__(self, t, y):
+        return self.equations.N(t, y) - self.value

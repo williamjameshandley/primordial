@@ -10,3 +10,6 @@ class ChaoticPotential(Potential):
 
     def d(self, phi):
         return self.m**2*phi
+
+    def dd(self, phi):
+        return self.m**2

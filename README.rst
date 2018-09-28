@@ -38,7 +38,7 @@ Plot Background evolution
 
     import numpy
     import matplotlib.pyplot as plt
-    from primordial.solver import Solver
+    from primordial.solver import solve
     from primordial.equations.inflation_potentials import ChaoticPotential
     from primordial.equations.t.inflation import Equations, KD_initial_conditions
     from primordial.equations.events import Inflation, Stationary
@@ -53,16 +53,13 @@ Plot Background evolution
                   Inflation(equations, -1, terminal=True), # Stop on inflation exit
                   Stationary(equations, terminal=True)]    # Stop if universe stops expanding
 
-
-         solver = Solver(equations, events)
-
          N_p = -1.5
          phi_p = 23
          t_p = 1e-5
          ic = KD_initial_conditions(t_p, N_p, phi_p)
          t = numpy.logspace(-5,10,1e6)
 
-         sol = solver.solve(ic, t)
+         sol = solve(equations, ic, t_eval=t, events=events)
 
          ax[0].plot(sol.N,sol.phi)
          ax[0].set_ylabel(r'$\phi$')
@@ -113,7 +110,7 @@ Plot mode function evolution
         ic = KD_initial_conditions(t_p, N_p, phi_p)
         t = numpy.logspace(-5,10,1e6)
     
-        sol = solve(equations, ic, t, events)
+        sol = solve(equations, ic, t_eval=t, events=events)
     
         ax.plot(sol.N,sol.R1, 'k-')
         ax2.plot(sol.N,-numpy.log(sol.H*numpy.exp(sol.N)), 'b-')
