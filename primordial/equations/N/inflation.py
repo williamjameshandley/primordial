@@ -1,5 +1,5 @@
 import numpy
-from primordial.equations.equations import Equations as _Equations
+from primordial.equations.inflation import Equations as _Equations
 
 class Equations(_Equations):
     """ Background equations in time 
@@ -16,8 +16,7 @@ class Equations(_Equations):
     
     """
     def __init__(self, K, potential):
-        self.potential = potential
-        self.K = K
+        super(Equations, self).__init__(K, potential)
         self.add_variables(['phi', 'dphi'])
 
     def __call__(self, N, y):
@@ -35,10 +34,6 @@ class Equations(_Equations):
 
         return dy
 
-    def H(self, N, y):
-        """ Hubble parameter"""
-        return numpy.sqrt(self.H2(N, y))
-
     def H2(self, N, y):
         """ The square of the Hubble parameter,
             computed using the Friedmann equation """
@@ -53,27 +48,9 @@ class Equations(_Equations):
         H2 = self.H2(N, y) 
         return - dphi**2/2 + self.K * numpy.exp(-2*N)/H2
 
-    def N(self, N, y):
-        return N
-
-    def V(self, N, y):
-        """ Potential """
-        return self.potential(self.phi(N, y))
-
-    def dVdphi(self, N, y):
-        """ Potential derivative """
-        return self.potential.d(self.phi(N, y))
-
     def inflating(self, N, y):
         """ Inflation diagnostic """
         return self.V(N, y) / (self.V(N, y)/2 - self.K*numpy.exp(-2*N)) - self.dphi(N, y)**2 
-
-    def sol(self, sol):
-        """ Post-process solution of solve_ivp """
-        sol = super(Equations, self).sol(sol)
-        sol.N = sol.t
-        sol.H = self.H(sol.N, sol.y)
-        return sol
 
 class Inflation_start_initial_conditions(object):
     def __init__(self, N_e, phi_e):

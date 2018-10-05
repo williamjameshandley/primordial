@@ -1,5 +1,6 @@
 import numpy
 from types import MethodType
+from scipy.interpolate import interp1d
 
 class Equations(dict):
     """ Base class for equations.
@@ -17,7 +18,7 @@ class Equations(dict):
     """
     def sol(self, sol):
         for name, i in self.items():
-            setattr(sol, name, sol.y[i])
+            setattr(sol, name, interp1d(sol.t, sol.y[i]))
         return sol
 
     def add_variable(self, name):
