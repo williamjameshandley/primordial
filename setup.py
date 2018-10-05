@@ -1,9 +1,6 @@
 #!/usr/bin/env python3
 
-try:
-    from setuptools import setup, Command
-except ImportError:
-    from distutils.core import setup, Command
+from setuptools import setup, Command, find_packages
 
 
 def readme():
@@ -30,7 +27,7 @@ setup(name='primordial',
       author='Will Handley',
       author_email='wh260@cam.ac.uk',
       url='https://github.com/williamjameshandley/primordial',
-      packages=['primordial', 'primordial.test'],
+      packages=find_packages(),
       install_requires=['numpy', 'scipy'],
       setup_requires=['pytest-runner'],
       extras_require={
