@@ -35,8 +35,8 @@ class Inflation(Event):
         return self.equations.inflating(t, y) - self.value
 
 
-class Stationary(Event):
-    """ Tests if a is positive """
+class Collapse(Event):
+    """ Tests if H^2 is positive """
     def __call__(self, t, y):
         return self.equations.H2(t, y) - self.value
 

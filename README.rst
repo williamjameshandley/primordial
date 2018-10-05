@@ -41,7 +41,7 @@ Plot Background evolution
     from primordial.solver import solve
     from primordial.equations.inflation_potentials import ChaoticPotential
     from primordial.equations.t.inflation import Equations, KD_initial_conditions
-    from primordial.equations.events import Inflation, Stationary
+    from primordial.equations.events import Inflation, Collapse
     
     fig, ax = plt.subplots(3,sharex=True)
     for K in [-1, 0, +1]:
@@ -51,7 +51,7 @@ Plot Background evolution
 
          events= [Inflation(equations),                    # Record inflation entry and exit 
                   Inflation(equations, -1, terminal=True), # Stop on inflation exit
-                  Stationary(equations, terminal=True)]    # Stop if universe stops expanding
+                  Collapse(equations, terminal=True)]      # Stop if universe stops expanding
 
          N_p = -1.5
          phi_p = 23
@@ -85,7 +85,7 @@ Plot mode function evolution
     from primordial.solver import solve
     from primordial.equations.inflation_potentials import ChaoticPotential
     from primordial.equations.t.mukhanov_sasaki import Equations, KD_initial_conditions
-    from primordial.equations.events import Inflation, Stationary, ModeExit
+    from primordial.equations.events import Inflation, Collapse, ModeExit
 
     fig, axes = plt.subplots(3,sharex=True)
     for ax, K in zip(axes, [-1, 0, +1]):
@@ -99,7 +99,7 @@ Plot mode function evolution
     
         events= [
                 Inflation(equations),                    # Record inflation entry and exit
-                Stationary(equations, terminal=True),    # Stop if universe stops expanding
+                Collapse(equations, terminal=True),      # Stop if universe stops expanding
                 ModeExit(equations, -1, terminal=True, value=1e-1)   # Stop on mode exit
                 ]
 

@@ -3,7 +3,7 @@ from numpy.testing import assert_allclose, assert_almost_equal
 from primordial.solver import solve
 from primordial.equations.inflation_potentials import ChaoticPotential
 from primordial.equations.t.inflation import Equations, KD_initial_conditions
-from primordial.equations.events import Inflation, Stationary
+from primordial.equations.events import Inflation, Collapse
 
 def test_Solver():
     for K in [-1, 0, +1]:
@@ -13,7 +13,7 @@ def test_Solver():
 
         events= [Inflation(equations, +1), 
                  Inflation(equations, -1, True), 
-                 Stationary(equations, terminal=True)]
+                 Collapse(equations, terminal=True)]
 
 
         t_p = 1e-5
