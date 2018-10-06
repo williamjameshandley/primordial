@@ -42,7 +42,7 @@ class Equations(_Equations):
         V = self.V(t, y)
         dphi = self.dphi(t, y) 
         N = self.N(t, y) 
-        return (dphi**2/2 + V)/3 - self.K*numpy.exp(-2*N)
+        return (dphi**2/2. + V)/3. - self.K*numpy.exp(-2*N)
 
     def inflating(self, t, y):
         """ Inflation diagnostic """
@@ -58,13 +58,13 @@ class KD_initial_conditions(object):
     def __call__(self, equations, y0):
         t0 = self.t0
         b = equations.K * numpy.exp(-2*self.N_p)
-        y0[equations['N']] = self.N_p + numpy.log(t0)/3 - 9/14 * b * t0**(4./3)
+        y0[equations['N']] = self.N_p + numpy.log(t0)/3 - 9./14 * b * t0**(4./3)
         y0[equations['phi']] = self.phi_p - numpy.sqrt(2./3)*numpy.log(t0) - 27*numpy.sqrt(6)/56*b*t0**(4./3)
         y0[equations['dphi']] = -numpy.sqrt(2./3)/t0 - 9*numpy.sqrt(6)/14 * b * t0**(1./3)
 
 class Inflation_start_initial_conditions(object):
     def __init__(self, N_e, phi_e):
-        self.t0 = 0
+        self.t0 = 0.
         self.N_e = N_e
         self.phi_e = phi_e
 

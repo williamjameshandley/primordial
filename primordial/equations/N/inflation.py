@@ -32,7 +32,7 @@ class Equations(_Equations):
         dy = numpy.zeros_like(y)
         dy[self['phi']] = dphi
         dy[self['dphi']] = ddphi
-        dy[self['t']] = 1/self.H(N, y)
+        dy[self['t']] = 1./self.H(N, y)
 
         return dy
 
@@ -42,17 +42,17 @@ class Equations(_Equations):
         V = self.V(N, y)
         dphi = self.dphi(N, y) 
 
-        return (2*V - 6*self.K*numpy.exp(-2*N)) / (6 - dphi**2)
+        return (2*V - 6*self.K*numpy.exp(-2*N)) / (6. - dphi**2)
 
     def dlogH(self, N, y):
         """ d/dN log H """
         dphi = self.dphi(N, y) 
         H2 = self.H2(N, y) 
-        return - dphi**2/2 + self.K * numpy.exp(-2*N)/H2
+        return - dphi**2/2. + self.K * numpy.exp(-2*N)/H2
 
     def inflating(self, N, y):
         """ Inflation diagnostic """
-        return self.V(N, y) / (self.V(N, y)/2 - self.K*numpy.exp(-2*N)) - self.dphi(N, y)**2 
+        return self.V(N, y) / (self.V(N, y)/2. - self.K*numpy.exp(-2*N)) - self.dphi(N, y)**2 
 
     def sol(self, sol, **kwargs):
         """ Post-process solution of solve_ivp """
@@ -70,5 +70,5 @@ class Inflation_start_initial_conditions(object):
         V = equations.potential(self.phi_e)
         N = self.t0
         y0[equations['phi']] = self.phi_e
-        y0[equations['dphi']] = -numpy.sqrt(V / (V/2 - equations.K*numpy.exp(-2*N)))
-        y0[equations['t']] = 0
+        y0[equations['dphi']] = -numpy.sqrt(V / (V/2. - equations.K*numpy.exp(-2*N)))
+        y0[equations['t']] = 0.

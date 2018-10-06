@@ -6,7 +6,7 @@ class ChaoticPotential(Potential):
         self.m = m
 
     def __call__(self, phi):
-        return self.m**2*phi**2/2
+        return self.m**2*phi**2/2.
 
     def d(self, phi):
         return self.m**2*phi

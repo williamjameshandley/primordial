@@ -22,7 +22,7 @@ class Equations(_Equations):
         self.Omega_m = Omega_m
         self.Omega_l = Omega_l
         self.Omega_k = 1 - (Omega_r + Omega_m + Omega_l)
-        self.N0 = numpy.log(1/H0/numpy.sqrt(numpy.abs(self.Omega_k)))
+        self.N0 = numpy.log(1./H0/numpy.sqrt(numpy.abs(self.Omega_k)))
         print(self.N0)
 
         self.add_variables('N')

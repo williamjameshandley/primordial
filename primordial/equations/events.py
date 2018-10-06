@@ -43,7 +43,7 @@ class Collapse(Event):
 class ModeExit(Event):
     """ When mode exits the horizon """
     def __call__(self, t, y):
-        return numpy.log(numpy.abs(self.equations.H2(t, y)))/2+self.equations.N(t,y) - numpy.log(self.value)
+        return numpy.log(numpy.abs(self.equations.H2(t, y)))/2.+self.equations.N(t,y) - numpy.log(self.value)
 
 class UntilN(Event):
     """ Stop at N """

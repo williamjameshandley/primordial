@@ -32,7 +32,7 @@ class Equations(BackgroundEquations):
         else:
             k2 = k**2-3*K
 
-        E = dphi**2 / H**2 / 2
+        E = dphi**2 / H**2 / 2.
         alpha = E*K + k2
         gamma = (k2**2 - k2*K - E * k2*K - 2*k2*ddphi*K/dphi/H - E*k2 + 2*k2*K**2/H**2*numpy.exp(-2*N))*numpy.exp(-2*N)
         beta = (3*H*k2 + 2*E*H*k2 + 2*k2*ddphi/dphi + 3*E*H*K - 2*k2*K/H*numpy.exp(-2*N))

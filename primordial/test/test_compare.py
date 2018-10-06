@@ -1,6 +1,6 @@
 from numpy.testing import assert_allclose, assert_almost_equal
-from primordial.equations.t.inflation import Equations as Equations_t, Inflation_start_initial_conditions as Inflation_start_initial_conditions_t
-from primordial.equations.N.inflation import Equations as Equations_N, Inflation_start_initial_conditions as Inflation_start_initial_conditions_N
+from primordial.equations.t.inflation import Equations as Eqs_t, Inflation_start_initial_conditions as IC_t
+from primordial.equations.N.inflation import Equations as Eqs_N, Inflation_start_initial_conditions as IC_N
 
 from primordial.equations.events import Inflation
 from primordial.equations.inflation_potentials import ChaoticPotential
@@ -15,14 +15,14 @@ def test_t_n():
 
     N_0 = 0
     phi_0 = 17
-    equations = Equations_t(K, V)
+    equations = Eqs_t(K, V)
     events = Inflation(equations, direction=-1, terminal=True)
-    ic = Inflation_start_initial_conditions_t(N_0, phi_0)
+    ic = IC_t(N_0, phi_0)
     sol_t = solve(equations, ic, events=events, atol=atol, rtol=rtol)
 
-    equations = Equations_N(K, V)
+    equations = Eqs_N(K, V)
     events = Inflation(equations, direction=-1, terminal=True)
-    ic = Inflation_start_initial_conditions_N(N_0, phi_0)
+    ic = IC_N(N_0, phi_0)
     sol_N = solve(equations, ic, events=events, atol=atol, rtol=rtol)
 
     N = sol_N.N[1:-1]
@@ -32,5 +32,3 @@ def test_t_n():
     t = sol_t.t[1:-1]
     t_N = sol_N.t(sol_t.N(t))
     assert_allclose(t, t_N, atol*1e2, rtol*1e2)
-
-
