@@ -16,9 +16,13 @@ class Equations(dict):
     and add variable names using ``add_variable`` or ``add_variables``
 
     """
-    def sol(self, sol):
+
+    def sol(self, sol, **kwargs):
+        kind = kwargs.pop('kind', 'cubic')
+        bounds_error = kwargs.pop('bounds_error', False)
+        t = sol.t[:]
         for name, i in self.items():
-            setattr(sol, name, interp1d(sol.t, sol.y[i]))
+            setattr(sol, name, interp1d(t, sol.y[i], kind=kind, bounds_error=bounds_error))
         return sol
 
     def add_variable(self, name):

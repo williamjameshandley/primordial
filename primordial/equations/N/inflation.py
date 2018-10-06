@@ -13,11 +13,12 @@ class Equations(_Equations):
     Variables:
         phi: inflaton field
         dphi: d/dN (phi) 
+        t: cosmic time
     
     """
     def __init__(self, K, potential):
         super(Equations, self).__init__(K, potential)
-        self.add_variables(['phi', 'dphi'])
+        self.add_variables(['phi', 'dphi', 't'])
 
     def __call__(self, N, y):
         """ The derivative function for underlying variables,
@@ -31,6 +32,7 @@ class Equations(_Equations):
         dy = numpy.zeros_like(y)
         dy[self['phi']] = dphi
         dy[self['dphi']] = ddphi
+        dy[self['t']] = 1/self.H(N, y)
 
         return dy
 
@@ -52,6 +54,13 @@ class Equations(_Equations):
         """ Inflation diagnostic """
         return self.V(N, y) / (self.V(N, y)/2 - self.K*numpy.exp(-2*N)) - self.dphi(N, y)**2 
 
+    def sol(self, sol, **kwargs):
+        """ Post-process solution of solve_ivp """
+        N = sol.t
+        sol = super(Equations, self).sol(sol, **kwargs)
+        sol.N = N
+        return sol
+
 class Inflation_start_initial_conditions(object):
     def __init__(self, N_e, phi_e):
         self.t0 = N_e
@@ -62,3 +71,4 @@ class Inflation_start_initial_conditions(object):
         N = self.t0
         y0[equations['phi']] = self.phi_e
         y0[equations['dphi']] = -numpy.sqrt(V / (V/2 - equations.K*numpy.exp(-2*N)))
+        y0[equations['t']] = 0

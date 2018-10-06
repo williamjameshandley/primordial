@@ -6,6 +6,7 @@ from scipy.interpolate import interp1d
 class Equations(_Equations):
 
     def __init__(self, K, potential):
+        super(Equations, self).__init__()
         self.potential = potential
         self.K = K
 
@@ -21,8 +22,8 @@ class Equations(_Equations):
         """ Potential derivative """
         return self.potential.d(self.phi(t, y))
 
-    def sol(self, sol):
+    def sol(self, sol, **kwargs):
         """ Post-process solution of solve_ivp """
-        sol = super(Equations, self).sol(sol)
         sol.H = interp1d(sol.t, self.H(sol.t, sol.y))
+        sol = super(Equations, self).sol(sol, **kwargs)
         return sol
