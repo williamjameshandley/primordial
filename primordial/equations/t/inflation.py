@@ -62,6 +62,7 @@ class KD_initial_conditions(object):
         y0[equations['phi']] = self.phi_p - numpy.sqrt(2./3)*numpy.log(t0) - 27*numpy.sqrt(6)/56*b*t0**(4./3)
         y0[equations['dphi']] = -numpy.sqrt(2./3)/t0 - 9*numpy.sqrt(6)/14 * b * t0**(1./3)
 
+
 class Inflation_start_initial_conditions(object):
     def __init__(self, N_e, phi_e):
         self.t0 = 0.
