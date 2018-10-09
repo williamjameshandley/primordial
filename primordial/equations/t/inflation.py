@@ -18,6 +18,7 @@ class Equations(_Equations):
     """
     def __init__(self, K, potential):
         super(Equations, self).__init__(K, potential)
+        self.add_independent_variable('t')
         self.add_variables(['N', 'phi', 'dphi'])
 
     def __call__(self, t, y):

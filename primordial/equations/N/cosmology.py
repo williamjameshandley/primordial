@@ -8,10 +8,10 @@ class Equations(_Equations):
     using the Friedmann equation.
 
     Independent variable:
-        t: cosmic time
+        N: efolds
     
     Variables:
-        N: efolds
+        t: cosmic time
     
     """
     def __init__(self, H0, Omega_r, Omega_m, Omega_l):
@@ -22,19 +22,19 @@ class Equations(_Equations):
         self.Omega_k = 1 - (Omega_r + Omega_m + Omega_l)
         self.N0 = numpy.log(1./H0/numpy.sqrt(numpy.abs(self.Omega_k)))
 
-        self.add_independent_variable('t')
-        self.add_variable('N')
+        self.add_independent_variable('N')
+        self.add_variable('t')
 
-    def __call__(self, t, y):
+    def __call__(self, N, y):
         """ The derivative function for underlying variables,
             computed using the Klein-Gordon equation """
         dy = numpy.zeros_like(y)
-        dy[self['N']] = self.H(t, y)
+        dy[self['t']] = 1/self.H(N, y)
         return dy
 
-    def H(self, t, y):
+    def H(self, N, y):
         """ Hubble parameter"""
-        return numpy.sqrt(self.H2(t, y))
+        return numpy.sqrt(self.H2(N, y))
 
     def H2(self, t, y):
         """ The square of the Hubble parameter,
@@ -49,16 +49,16 @@ class Equations(_Equations):
 
     def sol(self, sol):
         """ Post-process solution of solve_ivp """
+        N = sol.t
         sol = super(Equations, self).sol(sol)
-        sol.H = self.H(sol.t, sol.y)
+        sol.N = N
+        sol.H = self.H(sol.N, sol.y)
         return sol
 
 
 class initial_conditions(object):
     def __init__(self, Ni):
-        self.t0 = 0
-        self.Ni = Ni
+        self.t0 = Ni
 
     def __call__(self, equations, y0):
-        t0 = self.t0
-        y0[equations['N']] = self.Ni
+        y0[equations['t']] = 0

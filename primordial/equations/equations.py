@@ -20,10 +20,16 @@ class Equations(dict):
     def sol(self, sol, **kwargs):
         kind = kwargs.pop('kind', 'cubic')
         bounds_error = kwargs.pop('bounds_error', False)
-        t = sol.t[:]
+        t, j = numpy.unique(sol.t,return_index=True)
         for name, i in self.items():
-            setattr(sol, name, interp1d(t, sol.y[i], kind=kind, bounds_error=bounds_error))
+            setattr(sol, name, interp1d(t, sol.y[i, j], kind=kind, bounds_error=bounds_error))
         return sol
+
+    def add_independent_variable(self, name):
+        """ Define the name of the independent variable """
+        def method(self, t, y):
+            return t
+        setattr(self, name, MethodType(method, self))
 
     def add_variable(self, name):
         """ Add variable to equations.

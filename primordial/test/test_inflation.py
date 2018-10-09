@@ -6,7 +6,7 @@ from primordial.equations.events import Inflation
 from primordial.equations.inflation_potentials import ChaoticPotential
 from primordial.solver import solve
 
-def test_t_n():
+def test_inflation():
     atol, rtol = 1e-8, 1e-8
 
     V = ChaoticPotential(m=1)

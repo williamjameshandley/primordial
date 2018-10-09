@@ -134,13 +134,15 @@ Eventually would like to submit this to `JOSS <https://joss.theoj.org/>`_. Here 
 
 Cosmology
 ---------
-* [ ] Slow roll initial conditions
-* [ ] Mukhanov Sazaki evolution in :math:`N`
-* [ ] add :math:`\eta` as independent variable
-* [ ] add :math:`\phi` as independent variable
+* Slow roll initial conditions
+* Mukhanov Sazaki evolution in :math:`N`
+* add :math:`\eta` as independent variable
+* add :math:`\phi` as independent variable
 
 Code
 ----
-* [ ] 100% coverage
-* [ ] Documentation
-* [ ] More thorough tests
+* Documentation
+* Tests
+   * 100% coverage
+   * interpolation
+   * cosmology
