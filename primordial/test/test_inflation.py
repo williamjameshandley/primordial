@@ -30,6 +30,8 @@ def test_inflation():
     sol_t = solve(equations, ic, events=events, t_eval=t, atol=atol, rtol=rtol)
 
     # Check t-N consistency
+    atol *= 10
+    rtol *=10
     assert_allclose(sol_t.N(t), N, atol, rtol)
     assert_allclose(t, sol_N.t(N), atol, rtol)
 

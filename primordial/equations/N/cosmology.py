@@ -14,8 +14,8 @@ class Equations(_Equations):
         t: cosmic time
     
     """
-    def __init__(self, H0, Omega_r, Omega_m, Omega_l):
-        super(Equations, self).__init__(H0, Omega_r, Omega_m, Omega_l)
+    def __init__(self, H0, Omega_r, Omega_m, Omega_k, Omega_l):
+        super(Equations, self).__init__(H0, Omega_r, Omega_m, Omega_k, Omega_l)
 
         self.add_independent_variable('N')
         self.add_variable('t')
@@ -26,8 +26,6 @@ class Equations(_Equations):
         dy = numpy.zeros_like(y)
         dy[self['t']] = 1/self.H(N, y)
         return dy
-
-
 
     def sol(self, sol):
         """ Post-process solution of solve_ivp """

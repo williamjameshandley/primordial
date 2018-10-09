@@ -1,5 +1,6 @@
 import numpy
 from primordial.equations.equations import Equations as _Equations
+from scipy.interpolate import interp1d
 
 class Equations(_Equations):
     """ Cosmology equations
@@ -14,12 +15,13 @@ class Equations(_Equations):
         t: cosmic time
     
     """
-    def __init__(self, H0, Omega_r, Omega_m, Omega_l):
+    def __init__(self, H0, Omega_r, Omega_m, Omega_k, Omega_l):
         self.H0 = H0
-        self.Omega_r = Omega_r
-        self.Omega_m = Omega_m
-        self.Omega_l = Omega_l
-        self.Omega_k = 1 - (Omega_r + Omega_m + Omega_l)
+        Omega = Omega_r + Omega_m + Omega_k + Omega_l
+        self.Omega_m = Omega_m/Omega
+        self.Omega_l = Omega_l/Omega
+        self.Omega_k = Omega_k/Omega
+        self.Omega_r = Omega_r/Omega
         if self.Omega_k==0:
             self.N0 = 0
         else:
@@ -42,6 +44,6 @@ class Equations(_Equations):
 
     def sol(self, sol):
         """ Post-process solution of solve_ivp """
-        sol.H = self.H(sol.t, sol.y)
+        sol.H = interp1d(sol.t, self.H(sol.t, sol.y))
         sol = super(Equations, self).sol(sol)
         return sol
