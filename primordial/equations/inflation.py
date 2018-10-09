@@ -1,7 +1,6 @@
 """ Base classes for inflationary solvers"""
 import numpy
 from primordial.equations.equations import Equations as _Equations
-from scipy.interpolate import interp1d
 
 class Equations(_Equations):
 
@@ -24,6 +23,6 @@ class Equations(_Equations):
 
     def sol(self, sol, **kwargs):
         """ Post-process solution of solve_ivp """
-        sol.H = interp1d(sol.t, self.H(sol.t, sol.y))
+        sol.H = self.interp1d(sol.t, self.H(sol.t, sol.y), **kwargs)
         sol = super(Equations, self).sol(sol, **kwargs)
         return sol

@@ -55,12 +55,6 @@ class Equations(_Equations):
         """ Inflation diagnostic """
         return self.V(N, y) / (self.V(N, y)/2. - self.K*numpy.exp(-2*N)) - self.dphi(N, y)**2 
 
-    def sol(self, sol, **kwargs):
-        """ Post-process solution of solve_ivp """
-        N = sol.t
-        sol = super(Equations, self).sol(sol, **kwargs)
-        sol.N = N
-        return sol
 
 class Inflation_start_initial_conditions(object):
     def __init__(self, N_e, phi_e):

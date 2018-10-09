@@ -27,13 +27,6 @@ class Equations(_Equations):
         dy[self['t']] = 1/self.H(N, y)
         return dy
 
-    def sol(self, sol):
-        """ Post-process solution of solve_ivp """
-        N = sol.t
-        sol = super(Equations, self).sol(sol)
-        sol.N = N
-        return sol
-
 
 class initial_conditions(object):
     def __init__(self, Ni):

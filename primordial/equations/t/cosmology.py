@@ -28,13 +28,6 @@ class Equations(_Equations):
         return dy
 
 
-
-    def sol(self, sol):
-        """ Post-process solution of solve_ivp """
-        sol = super(Equations, self).sol(sol)
-        return sol
-
-
 class initial_conditions(object):
     def __init__(self, Ni):
         self.t0 = 0

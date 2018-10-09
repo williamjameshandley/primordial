@@ -42,8 +42,8 @@ class Equations(_Equations):
                 + self.Omega_l
                 )
 
-    def sol(self, sol):
+    def sol(self, sol, **kwargs):
         """ Post-process solution of solve_ivp """
-        sol.H = interp1d(sol.t, self.H(sol.t, sol.y))
-        sol = super(Equations, self).sol(sol)
+        sol.H = self.interp1d(sol.t, self.H(sol.t, sol.y), **kwargs)
+        sol = super(Equations, self).sol(sol, **kwargs)
         return sol
