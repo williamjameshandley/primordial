@@ -7,47 +7,34 @@ from primordial.equations.inflation_potentials import ChaoticPotential
 from primordial.solver import solve
 
 def test_t_n():
-    m = 1
+    atol, rtol = 1e-8, 1e-8
+
+    V = ChaoticPotential(m=1)
     K = 0
-    V = ChaoticPotential()
-    atol = 1e-8
-    rtol = 1e-8
 
-    N_0 = 0
-    phi_0 = 17
-
-    # Solve in t
-    equations = Eqs_t(K, V)
-    events = Inflation(equations, direction=-1, terminal=True)
-    ic = IC_t(N_0, phi_0)
-    sol_t = solve(equations, ic, events=events, atol=atol, rtol=rtol)
+    N_0, phi_0 = 0, 17
 
     # Solve in N
     equations = Eqs_N(K, V)
-    events = Inflation(equations, direction=-1, terminal=True)
     ic = IC_N(N_0, phi_0)
+    events = Inflation(equations, direction=-1, terminal=True)
     sol_N = solve(equations, ic, events=events, atol=atol, rtol=rtol)
 
-    # Check N
     N = sol_N.N[1:-1]
-    N_t = sol_t.N(sol_N.t(N))
-    assert_allclose(N, N_t, atol*1e2, rtol*1e2)
-
-    # Check t
-    t = sol_t.t[1:-1]
-    t_N = sol_N.t(sol_t.N(t))
-    assert_allclose(t, t_N, atol*1e2, rtol*1e2)
-
     t = sol_N.t(N)
 
+    # Solve in t
+    equations = Eqs_t(K, V)
+    ic = IC_t(N_0, phi_0)
+    events = Inflation(equations, direction=-1, terminal=True)
+    sol_t = solve(equations, ic, events=events, t_eval=t, atol=atol, rtol=rtol)
+
+    # Check t-N consistency
+    assert_allclose(sol_t.N(t), N, atol, rtol)
+    assert_allclose(t, sol_N.t(N), atol, rtol)
+
     # Check phi
-    phi_N = sol_N.phi(N)
-    phi_t = sol_t.phi(t)
-    assert_allclose(phi_t, phi_N, atol*1e2, rtol*1e2)
+    assert_allclose(sol_t.phi(t), sol_N.phi(N), atol, rtol)
 
     # Check H
-    # Need to reduce tolerance due to poor modelling of vertical section by cubic splines
-    H_N = sol_N.H(N)
-    H_t = sol_t.H(t)
-    assert_allclose(H_t, H_N, atol*1e5, rtol*1e5)
-
+    assert_allclose(sol_N.H(N), sol_t.H(t), atol, rtol)
