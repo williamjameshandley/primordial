@@ -3,7 +3,7 @@ primordial: inflationary equation solver
 ========================================
 :primordial: inflationary equation solver
 :Author: Will Handley
-:Version: 0.0.8
+:Version: 0.0.9
 :Homepage: https://github.com/williamjameshandley/primordial
 :Documentation: http://primordial.readthedocs.io/
 
@@ -127,3 +127,20 @@ Plot mode function evolution
 
 .. |image0| image:: https://raw.githubusercontent.com/williamjameshandley/primordial/master/figures/background.png
 .. |image1| image:: https://raw.githubusercontent.com/williamjameshandley/primordial/master/figures/ms.png 
+
+To do list
+==========
+Eventually would like to submit this to `JOSS <https://joss.theoj.org/>`_. Here are things to do before then:
+
+Cosmology
+---------
+* [ ] Slow roll initial conditions
+* [ ] Mukhanov Sazaki evolution in :math:`N`
+* [ ] add :math:`\eta` as independent variable
+* [ ] add :math:`\phi` as independent variable
+
+Code
+----
+* [ ] 100% coverage
+* [ ] Documentation
+* [ ] More thorough tests
