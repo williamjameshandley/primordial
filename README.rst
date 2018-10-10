@@ -94,24 +94,25 @@ Plot mode function evolution
         V = ChaoticPotential(m)
         k = 100
         equations = Equations(K, V, k)
-    
+
         events= [
                 Inflation(equations),                    # Record inflation entry and exit
                 Collapse(equations, terminal=True),      # Stop if universe stops expanding
-                ModeExit(equations, -1, terminal=True, value=1e-1)   # Stop on mode exit
+                ModeExit(equations, +1, terminal=True, value=1e1*k)   # Stop on mode exit
                 ]
 
-    
+
         N_p = -1.5
         phi_p = 23
         t_p = 1e-5
         ic = KD_initial_conditions(t_p, N_p, phi_p)
         t = numpy.logspace(-5,10,1e6)
-    
+
         sol = solve(equations, ic, t_eval=t, events=events)
-    
-        ax.plot(sol.N,sol.R1, 'k-')
-        ax2.plot(sol.N,-numpy.log(sol.H*numpy.exp(sol.N)), 'b-')
+
+        N = sol.N(t)
+        ax.plot(N,sol.R1(t), 'k-')
+        ax2.plot(N,-numpy.log(sol.H(t))-N, 'b-')
 
         ax.set_ylabel('$\mathcal{R}$')
         ax2.set_ylabel('$-\log aH$')
@@ -119,6 +120,7 @@ Plot mode function evolution
         ax.text(0.9, 0.9, r'$K=%i$' % K, transform=ax.transAxes)
 
     axes[-1].set_xlabel('$N$')
+
 
 |image1|
 
