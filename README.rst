@@ -3,7 +3,7 @@ primordial: inflationary equation solver
 ========================================
 :primordial: inflationary equation solver
 :Author: Will Handley
-:Version: 0.0.11
+:Version: 0.0.12
 :Homepage: https://github.com/williamjameshandley/primordial
 :Documentation: http://primordial.readthedocs.io/
 
@@ -52,27 +52,27 @@ Plot Background evolution
          m = 1
          V = ChaoticPotential(m)
          equations = Equations(K, V)
-
+    
          events= [Inflation(equations),                    # Record inflation entry and exit 
                   Inflation(equations, -1, terminal=True), # Stop on inflation exit
                   Collapse(equations, terminal=True)]      # Stop if universe stops expanding
-
+    
          N_p = -1.5
          phi_p = 23
          t_p = 1e-5
          ic = KD_initial_conditions(t_p, N_p, phi_p)
          t = numpy.logspace(-5,10,1e6)
-
+    
          sol = solve(equations, ic, t_eval=t, events=events)
-
-         ax[0].plot(sol.N,sol.phi)
+    
+         ax[0].plot(sol.N(t),sol.phi(t))
          ax[0].set_ylabel(r'$\phi$')
-
-         ax[1].plot(sol.N,sol.H)
+    
+         ax[1].plot(sol.N(t),sol.H(t))
          ax[1].set_yscale('log')
          ax[1].set_ylabel(r'$H$')
-
-         ax[2].plot(sol.N,1/(sol.H*numpy.exp(sol.N)))
+    
+         ax[2].plot(sol.N(t),1/(sol.H(t)*numpy.exp(sol.N(t))))
          ax[2].set_yscale('log')
          ax[2].set_ylabel(r'$1/aH$')
          
