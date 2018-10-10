@@ -1,5 +1,5 @@
 import numpy
-from primordial.equations.t.inflation import Equations as BackgroundEquations, KD_initial_conditions as BackgroundKD_initial_conditions, Inflation_start_initial_conditions as BackgroundInflation_start_initial_conditions
+from primordial.equations.N.inflation import Equations as BackgroundEquations, Inflation_start_initial_conditions as BackgroundInflation_start_initial_conditions
 
 class Equations(BackgroundEquations):
     def __init__(self, K, potential, k):
@@ -8,23 +8,21 @@ class Equations(BackgroundEquations):
         self.add_variables(['R1', 'dR1', 'R2', 'dR2'])
 
 
-    def __call__(self, t, y):
+    def __call__(self, N, y):
         """ The derivative function for underlying variables,
             computed using the Mukhanov-Sasaki equation equation """
 
         # Compute background variables
-        dy = super(Equations, self).__call__(t, y)
+        dy = super(Equations, self).__call__(N, y)
 
         # Get useful variables
-        N = self.N(t, y)
-        H = self.H(t, y)
-        H2 = self.H2(t, y)
-        dphi = self.dphi(t, y)
+        H2 = self.H2(N, y)
+        dphi = self.dphi(N, y)
         ddphi = dy[self['dphi']]
-        R1 = self.R1(t, y)
-        R2 = self.R2(t, y)
-        dR1 = self.dR1(t, y)
-        dR2 = self.dR2(t, y)
+        R1 = self.R1(N, y)
+        R2 = self.R2(N, y)
+        dR1 = self.dR1(N, y)
+        dR2 = self.dR2(N, y)
 
         k = self.k
         K = self.K
@@ -33,10 +31,10 @@ class Equations(BackgroundEquations):
         else:
             k2 = k**2-3*K
 
-        E = dphi**2 / H2 / 2.
+        E = dphi**2 / 2.
         alpha = E*K + k2
-        gamma = (k2**2 - k2*K - E * k2*K - 2*k2*ddphi*K/dphi/H - E*K**2 + 2*k2*K**2/H2*numpy.exp(-2*N))*numpy.exp(-2*N)
-        beta = (3*H*k2 + 2*E*H*k2 + 2*k2*ddphi/dphi + 3*E*H*K - 2*k2*K/H*numpy.exp(-2*N))
+        gamma = (K*(k2-K)*dphi**2/2. - 2*K*k2*ddphi/dphi - K*k2 + k2**2)*numpy.exp(-2*N)/H2
+        beta = ((dphi**2*K/2. + k2)*K/H2*numpy.exp(-2*N) + K * (3/2.-dphi**2/4.)*dphi**2  + (2*ddphi/dphi - dphi**2/2. + 3)*k2)
 
         ddR1 = -(beta*dR1 + gamma*R1)/alpha
         ddR2 = -(beta*dR2 + gamma*R2)/alpha
@@ -47,14 +45,6 @@ class Equations(BackgroundEquations):
         dy[self['dR2']] = ddR2
 
         return dy
-
-class KD_initial_conditions(BackgroundKD_initial_conditions):
-    def __call__(self, equations, y0):
-        super(KD_initial_conditions, self).__call__(equations, y0)
-        y0[equations['R1']] = 0
-        y0[equations['dR1']] = equations.k
-        y0[equations['R2']] = 1
-        y0[equations['dR2']] = 0
 
 
 class Inflation_start_initial_conditions(BackgroundInflation_start_initial_conditions):

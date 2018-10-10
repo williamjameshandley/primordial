@@ -89,8 +89,6 @@ Plot mode function evolution
 
     fig, axes = plt.subplots(3,sharex=True)
     for ax, K in zip(axes, [-1, 0, +1]):
-    K=0
-    ax = axes[1]
         ax2 = ax.twinx()
         m = 1
         V = ChaoticPotential(m)
