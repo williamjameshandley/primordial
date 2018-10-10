@@ -19,6 +19,10 @@ primordial: inflationary equation solver
 .. image:: https://readthedocs.org/projects/primordial/badge/?version=latest
    :target: https://primordial.readthedocs.io/en/latest/?badge=latest
    :alt: Documentation Status
+.. image:: https://zenodo.org/badge/150298714.svg
+   :target: https://zenodo.org/badge/latestdoi/150298714
+   :alt: Permanent DOI for this release
+
 
 
 Description
