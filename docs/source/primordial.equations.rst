@@ -6,10 +6,19 @@ Subpackages
 
 .. toctree::
 
+    primordial.equations.N
     primordial.equations.t
 
 Submodules
 ----------
+
+primordial.equations.cosmology module
+-------------------------------------
+
+.. automodule:: primordial.equations.cosmology
+    :members:
+    :undoc-members:
+    :show-inheritance:
 
 primordial.equations.equations module
 -------------------------------------
@@ -23,6 +32,14 @@ primordial.equations.events module
 ----------------------------------
 
 .. automodule:: primordial.equations.events
+    :members:
+    :undoc-members:
+    :show-inheritance:
+
+primordial.equations.inflation module
+-------------------------------------
+
+.. automodule:: primordial.equations.inflation
     :members:
     :undoc-members:
     :show-inheritance:

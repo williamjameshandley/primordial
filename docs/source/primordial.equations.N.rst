@@ -1,29 +1,29 @@
-primordial.equations.t package
+primordial.equations.N package
 ==============================
 
 Submodules
 ----------
 
-primordial.equations.t.cosmology module
+primordial.equations.N.cosmology module
 ---------------------------------------
 
-.. automodule:: primordial.equations.t.cosmology
+.. automodule:: primordial.equations.N.cosmology
     :members:
     :undoc-members:
     :show-inheritance:
 
-primordial.equations.t.inflation module
+primordial.equations.N.inflation module
 ---------------------------------------
 
-.. automodule:: primordial.equations.t.inflation
+.. automodule:: primordial.equations.N.inflation
     :members:
     :undoc-members:
     :show-inheritance:
 
-primordial.equations.t.mukhanov\_sasaki module
+primordial.equations.N.mukhanov\_sasaki module
 ----------------------------------------------
 
-.. automodule:: primordial.equations.t.mukhanov_sasaki
+.. automodule:: primordial.equations.N.mukhanov_sasaki
     :members:
     :undoc-members:
     :show-inheritance:
@@ -32,7 +32,7 @@ primordial.equations.t.mukhanov\_sasaki module
 Module contents
 ---------------
 
-.. automodule:: primordial.equations.t
+.. automodule:: primordial.equations.N
     :members:
     :undoc-members:
     :show-inheritance:

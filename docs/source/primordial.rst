@@ -20,6 +20,14 @@ primordial.solver module
     :undoc-members:
     :show-inheritance:
 
+primordial.units module
+-----------------------
+
+.. automodule:: primordial.units
+    :members:
+    :undoc-members:
+    :show-inheritance:
+
 
 Module contents
 ---------------
