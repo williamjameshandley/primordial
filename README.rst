@@ -139,7 +139,6 @@ Eventually would like to submit this to `JOSS <https://joss.theoj.org/>`_. Here 
 Cosmology
 ---------
 * Slow roll initial conditions
-* Mukhanov Sazaki evolution in :math:`N`
 * add :math:`\eta` as independent variable
 * add :math:`\phi` as independent variable
 
@@ -149,4 +148,3 @@ Code
 * Tests
    * 100% coverage
    * interpolation
-   * cosmology
