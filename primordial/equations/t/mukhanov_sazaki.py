@@ -10,7 +10,7 @@ class Equations(BackgroundEquations):
 
     def __call__(self, t, y):
         """ The derivative function for underlying variables,
-            computed using the Mukhanov-Sasaki equation equation """
+            computed using the Mukhanov-Sazaki equation equation """
 
         # Compute background variables
         dy = super(Equations, self).__call__(t, y)

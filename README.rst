@@ -88,7 +88,7 @@ Plot mode function evolution
     import matplotlib.pyplot as plt
     from primordial.solver import solve
     from primordial.equations.inflation_potentials import ChaoticPotential
-    from primordial.equations.t.mukhanov_sasaki import Equations, KD_initial_conditions
+    from primordial.equations.t.mukhanov_sazaki import Equations, KD_initial_conditions
     from primordial.equations.events import Inflation, Collapse, ModeExit
 
     fig, axes = plt.subplots(3,sharex=True)
