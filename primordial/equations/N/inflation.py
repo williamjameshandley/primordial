@@ -31,9 +31,9 @@ class Equations(_Equations):
         ddphi = -(dlogH + 3)* dphi - dVdphi/H2
 
         dy = numpy.zeros_like(y)
-        dy[self['phi']] = dphi
-        dy[self['dphi']] = ddphi
-        dy[self['t']] = 1./self.H(N, y)
+        dy[self.i['phi']] = dphi
+        dy[self.i['dphi']] = ddphi
+        dy[self.i['t']] = 1./self.H(N, y)
 
         return dy
 
@@ -64,6 +64,6 @@ class Inflation_start_initial_conditions(object):
     def __call__(self, equations, y0):
         V = equations.potential(self.phi_e)
         N = self.t0
-        y0[equations['phi']] = self.phi_e
-        y0[equations['dphi']] = -numpy.sqrt(V / (V/2. - equations.K*numpy.exp(-2*N)))
-        y0[equations['t']] = 0.
+        y0[equations.i['phi']] = self.phi_e
+        y0[equations.i['dphi']] = -numpy.sqrt(V / (V/2. - equations.K*numpy.exp(-2*N)))
+        y0[equations.i['t']] = 0.

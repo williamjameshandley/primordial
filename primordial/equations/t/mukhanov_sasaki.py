@@ -20,7 +20,7 @@ class Equations(BackgroundEquations):
         H = self.H(t, y)
         H2 = self.H2(t, y)
         dphi = self.dphi(t, y)
-        ddphi = dy[self['dphi']]
+        ddphi = dy[self.i['dphi']]
         R1 = self.R1(t, y)
         R2 = self.R2(t, y)
         dR1 = self.dR1(t, y)
@@ -41,26 +41,26 @@ class Equations(BackgroundEquations):
         ddR1 = -(beta*dR1 + gamma*R1)/alpha
         ddR2 = -(beta*dR2 + gamma*R2)/alpha
 
-        dy[self['R1']] = dR1
-        dy[self['dR1']] = ddR1
-        dy[self['R2']] = dR2
-        dy[self['dR2']] = ddR2
+        dy[self.i['R1']] = dR1
+        dy[self.i['dR1']] = ddR1
+        dy[self.i['R2']] = dR2
+        dy[self.i['dR2']] = ddR2
 
         return dy
 
 class KD_initial_conditions(BackgroundKD_initial_conditions):
     def __call__(self, equations, y0):
         super(KD_initial_conditions, self).__call__(equations, y0)
-        y0[equations['R1']] = 0
-        y0[equations['dR1']] = equations.k
-        y0[equations['R2']] = 1
-        y0[equations['dR2']] = 0
+        y0[equations.i['R1']] = 0
+        y0[equations.i['dR1']] = equations.k
+        y0[equations.i['R2']] = 1
+        y0[equations.i['dR2']] = 0
 
 
 class Inflation_start_initial_conditions(BackgroundInflation_start_initial_conditions):
     def __call__(self, equations, y0):
         super(Inflation_start_initial_conditions, self).__call__(equations, y0)
-        y0[equations['R1']] = 0
-        y0[equations['dR1']] = equations.k
-        y0[equations['R2']] = 1
-        y0[equations['dR2']] = 0
+        y0[equations.i['R1']] = 0
+        y0[equations.i['dR1']] = equations.k
+        y0[equations.i['R2']] = 1
+        y0[equations.i['dR2']] = 0

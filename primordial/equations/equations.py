@@ -2,7 +2,7 @@ import numpy
 import scipy.interpolate
 from types import MethodType
 
-class Equations(dict):
+class Equations(object):
     """ Base class for equations.
 
     Allows one to compute derivatives and derived variables.
@@ -16,11 +16,13 @@ class Equations(dict):
     and add variable names using ``add_variable`` or ``add_variables``
 
     """
+    def __init__(self):
+        self.i = {}
 
     def sol(self, sol, **kwargs):
         t, j = numpy.unique(sol.t,return_index=True)
         del sol.t
-        for name, i in self.items():
+        for name, i in self.i.items():
             setattr(sol, name, self.interp1d(t, sol.y[i, j], **kwargs))
         tt = self.independent_variable
         setattr(sol, tt + '_events', sol.pop('t_events'))
@@ -47,9 +49,9 @@ class Equations(dict):
           name(self, t, y) that should be used to extract the variable value in
           an index-independent manner.
         """
-        self[name] = len(self)
+        self.i[name] = len(self.i)
         def method(self, t, y):
-            return numpy.array(y)[self[name],...]
+            return numpy.array(y)[self.i[name],...]
         setattr(self, name, MethodType(method, self))
 
     def add_variables(self, names):

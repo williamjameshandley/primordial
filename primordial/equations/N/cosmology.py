@@ -24,7 +24,7 @@ class Equations(_Equations):
         """ The derivative function for underlying variables,
             computed using the Klein-Gordon equation """
         dy = numpy.zeros_like(y)
-        dy[self['t']] = 1/self.H(N, y)
+        dy[self.i['t']] = 1/self.H(N, y)
         return dy
 
 
@@ -33,4 +33,4 @@ class initial_conditions(object):
         self.t0 = Ni
 
     def __call__(self, equations, y0):
-        y0[equations['t']] = 0
+        y0[equations.i['t']] = 0

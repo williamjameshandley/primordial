@@ -30,9 +30,9 @@ class Equations(_Equations):
         ddphi = -3*H*dphi - dVdphi
 
         dy = numpy.zeros_like(y)
-        dy[self['N']] = H
-        dy[self['phi']] = dphi
-        dy[self['dphi']] = ddphi
+        dy[self.i['N']] = H
+        dy[self.i['phi']] = dphi
+        dy[self.i['dphi']] = ddphi
 
         return dy
 
@@ -59,9 +59,9 @@ class KD_initial_conditions(object):
     def __call__(self, equations, y0):
         t0 = self.t0
         b = equations.K * numpy.exp(-2*self.N_p)
-        y0[equations['N']] = self.N_p + numpy.log(t0)/3 - 9./14 * b * t0**(4./3)
-        y0[equations['phi']] = self.phi_p - numpy.sqrt(2./3)*numpy.log(t0) - 27*numpy.sqrt(6)/56*b*t0**(4./3)
-        y0[equations['dphi']] = -numpy.sqrt(2./3)/t0 - 9*numpy.sqrt(6)/14 * b * t0**(1./3)
+        y0[equations.i['N']] = self.N_p + numpy.log(t0)/3 - 9./14 * b * t0**(4./3)
+        y0[equations.i['phi']] = self.phi_p - numpy.sqrt(2./3)*numpy.log(t0) - 27*numpy.sqrt(6)/56*b*t0**(4./3)
+        y0[equations.i['dphi']] = -numpy.sqrt(2./3)/t0 - 9*numpy.sqrt(6)/14 * b * t0**(1./3)
 
 
 class Inflation_start_initial_conditions(object):
@@ -71,6 +71,6 @@ class Inflation_start_initial_conditions(object):
         self.phi_e = phi_e
 
     def __call__(self, equations, y0):
-        y0[equations['N']] = self.N_e
-        y0[equations['phi']] = self.phi_e
-        y0[equations['dphi']] = -numpy.sqrt(equations.potential(self.phi_e))
+        y0[equations.i['N']] = self.N_e
+        y0[equations.i['phi']] = self.phi_e
+        y0[equations.i['dphi']] = -numpy.sqrt(equations.potential(self.phi_e))

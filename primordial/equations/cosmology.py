@@ -16,6 +16,7 @@ class Equations(_Equations):
     
     """
     def __init__(self, H0, Omega_r, Omega_m, Omega_k, Omega_l):
+        super(Equations, self).__init__()
         self.H0 = H0
         Omega = Omega_r + Omega_m + Omega_k + Omega_l
         self.Omega_m = Omega_m/Omega
