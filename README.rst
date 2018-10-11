@@ -3,7 +3,7 @@ primordial: inflationary equation solver
 ========================================
 :primordial: inflationary equation solver
 :Author: Will Handley
-:Version: 0.0.12
+:Version: 0.0.13
 :Homepage: https://github.com/williamjameshandley/primordial
 :Documentation: http://primordial.readthedocs.io/
 
