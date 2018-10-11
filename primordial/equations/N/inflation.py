@@ -18,8 +18,8 @@ class Equations(_Equations):
     """
     def __init__(self, K, potential):
         super(Equations, self).__init__(K, potential)
-        self.add_independent_variable('N')
-        self.add_variables(['phi', 'dphi', 't'])
+        self.set_independent_variable('N')
+        self.add_variable('phi', 'dphi', 't')
 
     def __call__(self, N, y):
         """ The derivative function for underlying variables,

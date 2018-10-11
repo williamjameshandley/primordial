@@ -5,7 +5,7 @@ class Equations(BackgroundEquations):
     def __init__(self, K, potential, k):
         super(Equations, self).__init__(K, potential)
         self.k = k
-        self.add_variables(['R1', 'dR1', 'R2', 'dR2'])
+        self.add_variable('R1', 'dR1', 'R2', 'dR2')
 
 
     def __call__(self, t, y):

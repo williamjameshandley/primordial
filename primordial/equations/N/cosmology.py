@@ -17,7 +17,7 @@ class Equations(_Equations):
     def __init__(self, H0, Omega_r, Omega_m, Omega_k, Omega_l):
         super(Equations, self).__init__(H0, Omega_r, Omega_m, Omega_k, Omega_l)
 
-        self.add_independent_variable('N')
+        self.set_independent_variable('N')
         self.add_variable('t')
 
     def __call__(self, N, y):
