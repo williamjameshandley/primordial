@@ -1,3 +1,4 @@
+""" Useful cosmological units """
 import numpy
 from scipy.constants import c, hbar, G
 

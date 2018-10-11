@@ -1,7 +1,9 @@
 class Potential(object):
     pass
 
+
 class ChaoticPotential(Potential):
+    """ Simple potential """
     def __init__(self, m=1):
         self.m = m
 

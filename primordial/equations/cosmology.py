@@ -1,6 +1,7 @@
 import numpy
 from primordial.equations.equations import Equations as _Equations
 
+
 class Equations(_Equations):
     """ Cosmology equations
 
@@ -9,10 +10,9 @@ class Equations(_Equations):
 
     Independent variable:
         N: efolds
-    
+
     Variables:
         t: cosmic time
-    
     """
     def __init__(self, H0, Omega_r, Omega_m, Omega_k, Omega_l):
         super(Equations, self).__init__()
@@ -22,7 +22,7 @@ class Equations(_Equations):
         self.Omega_l = Omega_l/Omega
         self.Omega_k = Omega_k/Omega
         self.Omega_r = Omega_r/Omega
-        if self.Omega_k==0:
+        if self.Omega_k == 0:
             self.N0 = 0
         else:
             self.N0 = numpy.log(1./H0/numpy.sqrt(numpy.abs(self.Omega_k)))
@@ -36,10 +36,10 @@ class Equations(_Equations):
             computed using the Friedmann equation """
         N = self.N(t, y)
         return self.H0**2 * (
-                  self.Omega_r * numpy.exp(4*(self.N0-N)) 
-                + self.Omega_m * numpy.exp(3*(self.N0-N))
-                + self.Omega_k * numpy.exp(2*(self.N0-N))
-                + self.Omega_l
+                  self.Omega_r * numpy.exp(4*(self.N0-N)) +
+                  self.Omega_m * numpy.exp(3*(self.N0-N)) +
+                  self.Omega_k * numpy.exp(2*(self.N0-N)) +
+                  self.Omega_l
                 )
 
     def sol(self, sol, **kwargs):

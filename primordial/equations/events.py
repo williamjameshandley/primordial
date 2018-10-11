@@ -1,32 +1,49 @@
 import numpy
 
+
 class Event(object):
     """ Base class for events.
 
-    Gives a more usable wrapper to 
+    Gives a more usable wrapper to callable event to be passed to
+    `scipy.integrate.solve_ivp`
 
-    Derived classes must define:
-
-    __call__(self, t, y)
-        Scalar root function for determining event
-
-    Attributes:
+    Parameters
     ----------
-
     equations: Equations
         The equations for computing derived variables.
 
-    direction: [-1, 0, +1]
+    direction: int [-1, 0, +1], optional, default 0
         The direction of the root finding (if any)
 
-    terminal: bool
+    terminal: bool, optional, default False
         Whether to stop at this root
+
+    value: float, optional, default 0
+        Offset to root
     """
     def __init__(self, equations, direction=0, terminal=False, value=0):
         self.equations = equations
         self.direction = direction
         self.terminal = terminal
         self.value = value
+
+    def __call__(self, t, y):
+        """ Vector of derivatives
+
+        Parameters
+        ----------
+        t : float
+            Time coordinate
+
+        y : numpy.array
+            Variable values
+
+        Returns
+        -------
+        root : float
+            event occurs when this is zero from a given direction
+        """
+        raise NotImplementedError("Event class must define __call__")
 
 
 class Inflation(Event):
@@ -40,10 +57,14 @@ class Collapse(Event):
     def __call__(self, t, y):
         return self.equations.H2(t, y) - self.value
 
+
 class ModeExit(Event):
-    """ When mode exits the horizon """
+    """ When mode exits the horizon aH """
     def __call__(self, t, y):
-        return numpy.log(numpy.abs(self.equations.H2(t, y)))/2.+self.equations.N(t,y) - numpy.log(self.value)
+        logH = numpy.log(numpy.abs(self.equations.H2(t, y)))/2.
+        N = self.equations.N(t, y)
+        return logH + N - numpy.log(self.value)
+
 
 class UntilN(Event):
     """ Stop at N """

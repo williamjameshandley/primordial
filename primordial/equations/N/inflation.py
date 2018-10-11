@@ -4,7 +4,7 @@ from primordial.equations.inflation import Equations as _Equations
 class Equations(_Equations):
     """ Background equations in time 
 
-    Solves bacgkround variables in cosmic time for curved and flat universes
+    Solves background variables in cosmic time for curved and flat universes
     using the Klein-Gordon and Friedmann equations.
 
     Independent variable:
