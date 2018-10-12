@@ -1,13 +1,13 @@
 from numpy.testing import assert_allclose, assert_almost_equal
-from primordial.equations.t.mukhanov_sazaki import Equations as Eqs_t, Inflation_start_initial_conditions as IC_t
-from primordial.equations.N.mukhanov_sazaki import Equations as Eqs_N, Inflation_start_initial_conditions as IC_N
+from primordial.equations.t.mukhanov_sasaki import Equations as Eqs_t, Inflation_start_initial_conditions as IC_t
+from primordial.equations.N.mukhanov_sasaki import Equations as Eqs_N, Inflation_start_initial_conditions as IC_N
 
 from primordial.equations.events import Inflation
 from primordial.equations.inflation_potentials import ChaoticPotential
 from primordial.solver import solve
 import numpy
 
-def test_mukhanov_sazaki():
+def test_mukhanov_sasaki():
     atol, rtol = 1e-8, 1e-8
 
     V = ChaoticPotential(m=1)
